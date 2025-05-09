@@ -1,10 +1,24 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
-    public int money = 0;
+    private int money = 0;
+    private HashSet<Collider2D> overlappingObjects = new HashSet<Collider2D>();
+
+    private TextMeshProUGUI moneyText;
+
+    private void Start()
+    {
+        // Initialize the money text
+        moneyText = GameObject.Find("MoneyUI").GetComponent<TextMeshProUGUI>();
+        if (moneyText == null)
+        {
+            Debug.LogError("MoneyUI not found in the scene or missing TextMeshProUGUI");
+        }
+    }
 
     void Update()
     {
@@ -49,6 +63,8 @@ public class Player : MonoBehaviour
         // private Array middle = GetMiddle();
         // private Array outside = GetOutside();
         //Debug.Log(overlappingObjects.Count);
+        money += overlappingObjects.Count;
+        moneyText.text = "Money: $" + money.ToString();
     }
 
 }

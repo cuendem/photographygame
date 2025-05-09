@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2956480332883503939}
   - component: {fileID: -3062749651282386707}
   - component: {fileID: -7363244851236154292}
-  - component: {fileID: -4781448564781540534}
+  - component: {fileID: 1169888364499501183}
   m_Layer: 0
   m_Name: FlyingObject
   m_TagString: Untagged
@@ -102,6 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87e12eedfd61f2f4fad8d720a2f8ac9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 5
 --- !u!61 &-7363244851236154292
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -148,7 +149,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!50 &-4781448564781540534
+--- !u!50 &1169888364499501183
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0
