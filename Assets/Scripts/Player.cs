@@ -1,11 +1,11 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     public int money = 0;
-    public LayerMask targetLayer; // Layer of objects you want to collect
-    public float overlapRadius = 0.5f; // Radius for overlap check
+    private HashSet<Collider2D> overlappingObjects = new HashSet<Collider2D>();
 
     void Update()
     {
@@ -20,6 +20,16 @@ public class Player : MonoBehaviour
             UsePowerUp();
         }
 
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        overlappingObjects.Add(other);
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        overlappingObjects.Remove(other);
     }
 
     private void UsePowerUp()
@@ -45,41 +55,8 @@ public class Player : MonoBehaviour
 
     }
 
-    void CheckForTarget()
-    {
-        // Overlap check at the trigger's position
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, overlapRadius, targetLayer);
-
-        foreach (var hit in hits)
-        {
-            if (hit != null)
-            {
-                money += 1;
-                Debug.Log("Hit " + hit.name + "! money: " + money);
-                // Optionally destroy the target or mark it as collected
-                Destroy(hit.gameObject);
-            }
-        }
-    }
-
     void TakePicture(){
-        Debug.Log("Photo taken!");
-        // // Get the mouse position in world coordinates
-        // Vector2 cursorPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        
-        // // Create a new picture object at the cursor position
-        // GameObject picture = new GameObject("Picture");
-        // picture.transform.position = new Vector2(cursorPos.x, cursorPos.y);
-        
-        // // Add a SpriteRenderer component to the picture object
-        // SpriteRenderer spriteRenderer = picture.AddComponent<SpriteRenderer>();
-        
-        // // Set the sprite for the picture (you can replace "YourSprite" with your actual sprite)
-        // spriteRenderer.sprite = Resources.Load<Sprite>("YourSprite");
-        
-        // // Optionally, set the sorting layer and order of the sprite
-        // spriteRenderer.sortingLayerName = "UI";
-        // spriteRenderer.sortingOrder = 1;
+        Debug.Log(overlappingObjects.Count);
     }
 
 }
