@@ -5,7 +5,6 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public int money = 0;
-    private HashSet<Collider2D> overlappingObjects = new HashSet<Collider2D>();
 
     void Update()
     {
@@ -20,16 +19,6 @@ public class Player : MonoBehaviour
             UsePowerUp();
         }
 
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        overlappingObjects.Add(other);
-    }
-
-    void OnTriggerExit2D(Collider2D other)
-    {
-        overlappingObjects.Remove(other);
     }
 
     private void UsePowerUp()
@@ -56,7 +45,10 @@ public class Player : MonoBehaviour
     }
 
     void TakePicture(){
-        Debug.Log(overlappingObjects.Count);
+        // private Array centered = GetCentered();
+        // private Array middle = GetMiddle();
+        // private Array outside = GetOutside();
+        //Debug.Log(overlappingObjects.Count);
     }
 
 }
