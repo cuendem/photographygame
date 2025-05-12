@@ -6,18 +6,28 @@ using TMPro;
 public class Player : MonoBehaviour
 {
     private int money = 0;
-    private HashSet<Collider2D> overlappingObjects = new HashSet<Collider2D>();
 
     private TextMeshProUGUI moneyText;
 
+    // Reference to the trigger script get conmponent
+    private CenterTrigger centerTrigger;
+    private MiddleTrigger middleTrigger;
+    private OutsideTrigger outsideTrigger;
+
     private void Start()
     {
+
+        // Find the trigger components in the scene
+        centerTrigger = GameObject.Find("Centered trigger").GetComponent<CenterTrigger>();
+        middleTrigger = GameObject.Find("Middle trigger").GetComponent<MiddleTrigger>();
+        outsideTrigger = GameObject.Find("Outside trigger").GetComponent<OutsideTrigger>();
+
         // Initialize the money text
-        moneyText = GameObject.Find("MoneyUI").GetComponent<TextMeshProUGUI>();
-        if (moneyText == null)
-        {
-            Debug.LogError("MoneyUI not found in the scene or missing TextMeshProUGUI");
-        }
+        // moneyText = GameObject.Find("MoneyUI").GetComponent<TextMeshProUGUI>();
+        // if (moneyText == null)
+        // {
+        //     Debug.LogError("MoneyUI not found in the scene or missing TextMeshProUGUI");
+        // }
     }
 
     void Update()
@@ -59,12 +69,20 @@ public class Player : MonoBehaviour
     }
 
     void TakePicture(){
-        // private Array centered = GetCentered();
-        // private Array middle = GetMiddle();
-        // private Array outside = GetOutside();
-        Debug.Log(overlappingObjects.Count);
-        money += overlappingObjects.Count;
-        moneyText.text = "Money: $" + money.ToString();
+        HashSet<Collider2D> centered = centerTrigger.GetCentered();
+        HashSet<Collider2D> middle = middleTrigger.GetMiddle();
+        HashSet<Collider2D> outside = outsideTrigger.GetOutside();
+
+        // Intersect outside with the updated middle (keep only common elements)
+        outside.IntersectWith(middle);
+        
+        // Remove from middle any colliders also in outside
+        middle.ExceptWith(outside);
+
+        money += centered.Count* 1 + middle.Count*2 + outside.Count*1;
+        Debug.Log(money);
+        // money += overlappingObjects.Count;
+        // moneyText.text = "Money: $" + money.ToString();
     }
 
 }
