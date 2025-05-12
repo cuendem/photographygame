@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
         // private Array centered = GetCentered();
         // private Array middle = GetMiddle();
         // private Array outside = GetOutside();
-        //Debug.Log(overlappingObjects.Count);
+        Debug.Log(overlappingObjects.Count);
         money += overlappingObjects.Count;
         moneyText.text = "Money: $" + money.ToString();
     }

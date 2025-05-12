@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-//inherits from PhotoTrigger
-public class CenterTrigger:MonoBehaviour
+public class CenterTrigger : MonoBehaviour
 {
     private HashSet<Collider2D> overlappingObjects = new HashSet<Collider2D>();
     void OnTriggerEnter2D(Collider2D other)
