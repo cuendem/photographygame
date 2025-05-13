@@ -8,6 +8,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3062749651282386707, guid: ff52e4d7c28f90b428ef4cd1af7be265, type: 3}
+      propertyPath: maxScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3062749651282386707, guid: ff52e4d7c28f90b428ef4cd1af7be265, type: 3}
+      propertyPath: minScale
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: -3062749651282386707, guid: ff52e4d7c28f90b428ef4cd1af7be265, type: 3}
+      propertyPath: maxXSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -3062749651282386707, guid: ff52e4d7c28f90b428ef4cd1af7be265, type: 3}
+      propertyPath: maxYSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -3062749651282386707, guid: ff52e4d7c28f90b428ef4cd1af7be265, type: 3}
+      propertyPath: minXSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -3062749651282386707, guid: ff52e4d7c28f90b428ef4cd1af7be265, type: 3}
+      propertyPath: minYSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -3062749651282386707, guid: ff52e4d7c28f90b428ef4cd1af7be265, type: 3}
+      propertyPath: maxWaveFrequency
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1559934624608979943, guid: ff52e4d7c28f90b428ef4cd1af7be265, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

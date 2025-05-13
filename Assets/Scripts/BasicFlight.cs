@@ -2,13 +2,24 @@ using UnityEngine;
 
 public class BasicFlight : MonoBehaviour
 {
-    public float xSpeed = 5f; // Speed X of the object
-    public float ySpeed = 5f; // Speed Y of the object
+    public float maxXSpeed = 7f;
+    public float minXSpeed = 4f;
+    public float maxYSpeed = 7f;
+    public float minYSpeed = 4f;
+    public float maxWaveAmplitude = 1f;
+    public float minWaveAmplitude = 0f;
+    public float maxWaveFrequency = 5f;
+    public float minWaveFrequency = 0.5f;
+    public float maxScale = 1.5f;
+    public float minScale = 0.5f;
+
+    private float xSpeed = 0f;
+    private float ySpeed = 0f;
     private int direction = 1; // 1 for right, -1 for left
     private bool hasBoomeranged = false; // Flag to check if the object has boomeranged
 
-    private float waveAmplitude = 0f; // Amplitude of the wave
-    private float waveFrequency = 0f; // Frequency of the wave
+    private float waveAmplitude = 0f;
+    private float waveFrequency = 0f;
 
     private float baseY; // Starting Y position
 
@@ -19,13 +30,19 @@ public class BasicFlight : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        xSpeed = Random.Range(4f, 7f);
-        ySpeed = Random.Range(4f, 7f);
+        xSpeed = Random.Range(minXSpeed, maxXSpeed);
+        ySpeed = Random.Range(minYSpeed, maxYSpeed);
 
-        waveAmplitude = Random.Range(0f, 1f);
-        waveFrequency = Random.Range(0.5f, 5f);
+        waveAmplitude = Random.Range(minWaveAmplitude, maxWaveAmplitude);
+        waveFrequency = Random.Range(minWaveFrequency, maxWaveFrequency);
 
         baseY = transform.position.y;
+
+        Vector3 newScale = transform.localScale;
+        float newScaleF = Random.Range(minScale, maxScale);
+        newScale.x = newScaleF;
+        newScale.y = newScaleF;
+        transform.localScale = newScale;
 
         if (transform.position.x < 0)
         {
@@ -45,14 +62,18 @@ public class BasicFlight : MonoBehaviour
         Flight();
 
         // Chance to move to the end of the screen and come back
-        if (Random.value > 0.75f && (((transform.position.x > 9f && direction == 1) || (transform.position.x < -9f && direction == -1)) && !hasBoomeranged))
-        {
-            direction *= -1; // Reverse direction
-            hasBoomeranged = true; // Set the flag to true
-            if (spriteRenderer.flipX == true) {
-                spriteRenderer.flipX = false;
+        if ((transform.position.x > 9f && direction == 1) || (transform.position.x < -9f && direction == -1)) {
+            if (Random.value < 0.3f && !hasBoomeranged)
+            {
+                direction *= -1; // Reverse direction
+                hasBoomeranged = true;
+                if (spriteRenderer.flipX == true) {
+                    spriteRenderer.flipX = false;
+                } else {
+                    spriteRenderer.flipX = true;
+                }
             } else {
-                spriteRenderer.flipX = true;
+                hasBoomeranged = true;
             }
         }
 
