@@ -7,25 +7,35 @@ public class BasicFlight : MonoBehaviour
     private int direction = 1; // 1 for right, -1 for left
     private bool hasBoomeranged = false; // Flag to check if the object has boomeranged
 
-    private float waveAmplitude = 0.1f; // Amplitude of the wave
-    private float waveFrequency = 2f; // Frequency of the wave
+    private float waveAmplitude = 0f; // Amplitude of the wave
+    private float waveFrequency = 0f; // Frequency of the wave
+
+    private float baseY; // Starting Y position
+
+    private SpriteRenderer spriteRenderer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        xSpeed = Random.Range(2f, 7f);
-        ySpeed = Random.Range(2f, 7f);
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
-        waveAmplitude = Random.Range(0f, 0.1f);
-        waveFrequency = Random.Range(0f, 3f);
+        xSpeed = Random.Range(4f, 7f);
+        ySpeed = Random.Range(4f, 7f);
+
+        waveAmplitude = Random.Range(0f, 1f);
+        waveFrequency = Random.Range(0.5f, 5f);
+
+        baseY = transform.position.y;
 
         if (transform.position.x < 0)
         {
-            direction = 1; // Move right if the object is on the left side
+            direction = 1;
+            spriteRenderer.flipX = false;
         }
         else
         {
-            direction = -1; // Move left if the object is on the right side
+            direction = -1;
+            spriteRenderer.flipX = true;
         }
     }
 
@@ -39,6 +49,11 @@ public class BasicFlight : MonoBehaviour
         {
             direction *= -1; // Reverse direction
             hasBoomeranged = true; // Set the flag to true
+            if (spriteRenderer.flipX == true) {
+                spriteRenderer.flipX = false;
+            } else {
+                spriteRenderer.flipX = true;
+            }
         }
 
         // Destroy the object if it goes off-screen
@@ -50,9 +65,13 @@ public class BasicFlight : MonoBehaviour
 
     void Flight()
     {
-        // Move the object in the specified direction
+        // Move horizontally
         transform.Translate(Vector3.right * xSpeed * direction * Time.deltaTime);
+
+        // Apply vertical wave offset relative to baseY
         float waveOffset = Mathf.Sin(Time.time * waveFrequency) * waveAmplitude;
-        transform.position += new Vector3(0, waveOffset, 0);
+        Vector3 position = transform.position;
+        position.y = baseY + waveOffset;
+        transform.position = position;
     }
 }

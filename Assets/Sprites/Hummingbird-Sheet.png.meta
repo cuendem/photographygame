@@ -1,19 +1,13 @@
 fileFormatVersion: 2
-guid: 46f454993e34da44f90e875f06039a45
+guid: e27c4e6b4b1f79a43abc35d342dfa6b3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8812992256971387468
-    second: Parakeet-Sheet_0
+      213: 4883903381950670879
+    second: Hummingbird-Sheet_0
   - first:
-      213: -7895687677432077953
-    second: Parakeet-Sheet_1
-  - first:
-      213: 3296465435395768678
-    second: Parakeet-Sheet_2
-  - first:
-      213: -4941790975827211985
-    second: Parakeet-Sheet_3
+      213: -8962329778624156008
+    second: Hummingbird-Sheet_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,7 +103,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Parakeet-Sheet_0
+      name: Hummingbird-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +118,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c423c05b3c90e4a70800000000000000
-      internalID: 8812992256971387468
+      spriteID: f18af76ff3c17c340800000000000000
+      internalID: 4883903381950670879
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Parakeet-Sheet_1
+      name: Hummingbird-Sheet_1
       rect:
         serializedVersion: 2
         x: 128
@@ -146,52 +140,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f716b39f3e1ec6290800000000000000
-      internalID: -7895687677432077953
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Parakeet-Sheet_2
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6614e1b19d56fbd20800000000000000
-      internalID: 3296465435395768678
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Parakeet-Sheet_3
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 0
-        width: 128
-        height: 128
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f29869b4a4b3b6bb0800000000000000
-      internalID: -4941790975827211985
+      spriteID: 89ea3310d886f9380800000000000000
+      internalID: -8962329778624156008
       vertices: []
       indices: 
       edges: []
@@ -200,7 +150,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 636a757cd0bb70647a7cac9eab87c079
+    spriteID: cf2ef726e9012ed4eabf484855001be3
     internalID: 0
     vertices: []
     indices: 
@@ -210,10 +160,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Parakeet-Sheet_0: 8812992256971387468
-      Parakeet-Sheet_1: -7895687677432077953
-      Parakeet-Sheet_2: 3296465435395768678
-      Parakeet-Sheet_3: -4941790975827211985
+      Hummingbird-Sheet_0: 4883903381950670879
+      Hummingbird-Sheet_1: -8962329778624156008
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
