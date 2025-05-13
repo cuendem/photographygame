@@ -13,16 +13,20 @@ PrefabInstance:
       value: Butterfly
       objectReference: {fileID: 0}
     - target: {fileID: 5234928671450061292, guid: 07728311546c408429a9b09401dd6f3d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -3979094115144651169, guid: 96c4c038f6c49d842aadc6b42a2ddcb5, type: 3}
+    - target: {fileID: 5234928671450061292, guid: 07728311546c408429a9b09401dd6f3d, type: 3}
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5234928671450061292, guid: 07728311546c408429a9b09401dd6f3d, type: 3}
       propertyPath: m_Color.g
-      value: 0.44878435
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5234928671450061292, guid: 07728311546c408429a9b09401dd6f3d, type: 3}
       propertyPath: m_Color.r
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8360849765417384264, guid: 07728311546c408429a9b09401dd6f3d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -64,8 +68,54 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8678941188706969315, guid: 07728311546c408429a9b09401dd6f3d, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.x
+      value: 0.4666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678941188706969315, guid: 07728311546c408429a9b09401dd6f3d, type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.y
+      value: 0.3846154
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678941188706969315, guid: 07728311546c408429a9b09401dd6f3d, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678941188706969315, guid: 07728311546c408429a9b09401dd6f3d, type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 0.13
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2371754543790601408, guid: 07728311546c408429a9b09401dd6f3d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6111991579755936751}
   m_SourcePrefab: {fileID: 100100000, guid: 07728311546c408429a9b09401dd6f3d, type: 3}
+--- !u!1 &7968907786152716069 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2371754543790601408, guid: 07728311546c408429a9b09401dd6f3d, type: 3}
+  m_PrefabInstance: {fileID: 5655700175091700709}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &-6111991579755936751
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7968907786152716069}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 935370094917091796, guid: 96c4c038f6c49d842aadc6b42a2ddcb5, type: 3}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
