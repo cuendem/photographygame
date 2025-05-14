@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     private MiddleTrigger middleTrigger;
     private OutsideTrigger outsideTrigger;
 
+    private float pictureRate = 1f;
     private float nextPictureTime = 0f;
 
     private void Start()
@@ -74,6 +75,6 @@ public class Player : MonoBehaviour
 
     void ScheduleNextPicture()
     {
-        nextPictureTime = Time.time + 3f;
+        nextPictureTime = Time.time + pictureRate;
     }
 }
