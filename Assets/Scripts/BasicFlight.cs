@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class BasicFlight : MonoBehaviour
 {
+    public bool mobile = true;
+
+    public int money;
+    public string powerup;
+
     public float maxXSpeed = 7f;
     public float minXSpeed = 4f;
     public float maxYSpeed = 7f;
@@ -38,49 +43,55 @@ public class BasicFlight : MonoBehaviour
 
         baseY = transform.position.y;
 
-        Vector3 newScale = transform.localScale;
-        float newScaleF = Random.Range(minScale, maxScale);
-        newScale.x = newScaleF;
-        newScale.y = newScaleF;
-        transform.localScale = newScale;
+        if (mobile)
+        {
+            Vector3 newScale = transform.localScale;
+            float newScaleF = Random.Range(minScale, maxScale);
+            newScale.x = newScaleF;
+            newScale.y = newScaleF;
+            transform.localScale = newScale;
 
-        if (transform.position.x < 0)
-        {
-            direction = 1;
-            spriteRenderer.flipX = false;
-        }
-        else
-        {
-            direction = -1;
-            spriteRenderer.flipX = true;
+            if (transform.position.x < 0)
+            {
+                direction = 1;
+                spriteRenderer.flipX = false;
+            }
+            else
+            {
+                direction = -1;
+                spriteRenderer.flipX = true;
+            }
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        Flight();
-
-        // Chance to move to the end of the screen and come back
-        if ((transform.position.x > 9f && direction == 1) || (transform.position.x < -9f && direction == -1)) {
-            if (Random.value < 0.3f && !hasBoomeranged)
-            {
-                direction *= -1; // Reverse direction
-                hasBoomeranged = true;
-                if (spriteRenderer.flipX == true) {
-                    spriteRenderer.flipX = false;
-                } else {
-                    spriteRenderer.flipX = true;
-                }
-            } else {
-                hasBoomeranged = true;
-            }
-        }
-
-        // Destroy the object if it goes off-screen
-        if (transform.position.x < -15f || transform.position.x > 15f)
+        if (mobile)
         {
-            Destroy(gameObject);
+            Flight();
+
+            // Chance to move to the end of the screen and come back
+            if ((transform.position.x > 9f && direction == 1) || (transform.position.x < -9f && direction == -1)) {
+                if (Random.value < 0.3f && !hasBoomeranged)
+                {
+                    direction *= -1; // Reverse direction
+                    hasBoomeranged = true;
+                    if (spriteRenderer.flipX == true) {
+                        spriteRenderer.flipX = false;
+                    } else {
+                        spriteRenderer.flipX = true;
+                    }
+                } else {
+                    hasBoomeranged = true;
+                }
+            }
+
+            // Destroy the object if it goes off-screen
+            if (transform.position.x < -15f || transform.position.x > 15f)
+            {
+                Destroy(gameObject);
+            }
         }
     }
 

@@ -26,6 +26,10 @@ public class GameManager : MonoBehaviour
     public void AddMoney(int amount)
     {
         money += amount;
+        if (money < 0)
+        {
+            money = 0;
+        }
         Debug.Log("Money updated: " + money);
         moneyText.text = "$" + money.ToString();
     }

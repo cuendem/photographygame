@@ -4,20 +4,15 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // Reference to the trigger script get conmponent
-    private CenterTrigger centerTrigger;
-    private MiddleTrigger middleTrigger;
-    private OutsideTrigger outsideTrigger;
+    public BoxCollider2D outerCollider;
+    public BoxCollider2D innerCollider;
 
     private float pictureRate = 1f;
     private float nextPictureTime = 0f;
 
     private void Start()
     {
-        // Find the trigger components in the scene
-        centerTrigger = GameObject.Find("Centered trigger").GetComponent<CenterTrigger>();
-        middleTrigger = GameObject.Find("Middle trigger").GetComponent<MiddleTrigger>();
-        outsideTrigger = GameObject.Find("Outside trigger").GetComponent<OutsideTrigger>();
+        
     }
 
     void Update()
@@ -59,18 +54,60 @@ public class Player : MonoBehaviour
 
     }
 
-    void TakePicture(){
-        HashSet<Collider2D> centered = centerTrigger.GetCentered();
-        HashSet<Collider2D> middle = middleTrigger.GetMiddle();
-        HashSet<Collider2D> outside = outsideTrigger.GetOutside();
+    void TakePicture()
+    {
+        Vector2 center = outerCollider.bounds.center;
+        Vector2 size = outerCollider.bounds.size;
 
-        // Intersect outside with the updated middle (keep only common elements)
-        outside.IntersectWith(middle);
+        Collider2D[] hits = Physics2D.OverlapBoxAll(center, size, 0f);
+        List<string> summary = new List<string>();
 
-        // Remove from middle any colliders also in outside
-        middle.ExceptWith(outside);
+        int totalPhotoMoney = 0;
 
-        GameManager.Instance.AddMoney(centered.Count*1 + middle.Count*2 + outside.Count*1);
+        foreach (Collider2D col in hits)
+        {
+            GameObject obj = col.gameObject;
+            string name = obj.name;
+            string position = GetObjectPositionStatus(col);
+
+            if (obj.TryGetComponent(out BasicFlight flight))
+            {
+                summary.Add($"{name} ({position})");
+
+                switch (position)
+                {
+                    case "CENTERED":
+                        totalPhotoMoney += flight.money * 3;
+                        break;
+                    case "CONTAINED":
+                        totalPhotoMoney += flight.money * 2;
+                        break;
+                    case "CUT":
+                        totalPhotoMoney += flight.money;
+                        break;
+                }
+            }
+        }
+
+        Debug.Log("📸 Picture Taken:\n" + string.Join(", ", summary));
+        Debug.Log($"Total Picture Money: ${totalPhotoMoney}");
+
+        GameManager.Instance.AddMoney(totalPhotoMoney);
+    }
+
+    string GetObjectPositionStatus(Collider2D col)
+    {
+        Bounds bounds = col.bounds;
+        Bounds outerBounds = outerCollider.bounds;
+        Bounds innerBounds = innerCollider.bounds;
+
+        bool fullyInsideOuter = outerBounds.Contains(bounds.min) && outerBounds.Contains(bounds.max);
+        bool touchingInner = col.IsTouching(innerCollider);
+
+        if (touchingInner) return "CENTERED";
+        else if (fullyInsideOuter) return "CONTAINED";
+        else if (col.IsTouching(outerCollider)) return "CUT";
+        else return "OUTSIDE";
     }
 
     void ScheduleNextPicture()

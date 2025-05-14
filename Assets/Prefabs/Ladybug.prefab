@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ladybug
       objectReference: {fileID: 0}
+    - target: {fileID: 3809862480275329602, guid: 07728311546c408429a9b09401dd6f3d, type: 3}
+      propertyPath: powerup
+      value: Zoom
+      objectReference: {fileID: 0}
     - target: {fileID: 5234928671450061292, guid: 07728311546c408429a9b09401dd6f3d, type: 3}
       propertyPath: m_Size.x
       value: 1.28

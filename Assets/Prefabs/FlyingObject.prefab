@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1169888364499501183}
   m_Layer: 0
   m_Name: FlyingObject
-  m_TagString: Untagged
+  m_TagString: FlyingObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -102,7 +102,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87e12eedfd61f2f4fad8d720a2f8ac9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  mobile: 1
+  maxXSpeed: 7
+  minXSpeed: 4
+  maxYSpeed: 7
+  minYSpeed: 4
+  maxWaveAmplitude: 1
+  minWaveAmplitude: 0
+  maxWaveFrequency: 5
+  minWaveFrequency: 0.5
+  maxScale: 1.5
+  minScale: 0.5
 --- !u!61 &-7363244851236154292
 BoxCollider2D:
   m_ObjectHideFlags: 0
