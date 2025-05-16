@@ -433,10 +433,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1351816534503402206, guid: f97a4dc3983f53346a664dd5d59a80f5, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4625064424458153298, guid: f97a4dc3983f53346a664dd5d59a80f5, type: 3}
       propertyPath: m_Name
       value: Player
@@ -654,17 +650,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnablePrefabs:
   - prefab: {fileID: 7490069660035872920, guid: 8ea491b652dfbff4d90b9504ba39c78a, type: 3}
-    spawnChance: 40
+    spawnChance: 35
   - prefab: {fileID: 3251800352887088602, guid: a04c03a13e8f20a44ba8f0ced2c69c4a, type: 3}
     spawnChance: 20
   - prefab: {fileID: 1653321825453010932, guid: cefb956e24bb217419c98deeabe2d6fd, type: 3}
     spawnChance: 5
   - prefab: {fileID: 7733058795524490963, guid: 4d7b0033b24d9b24dbba0a4178008eb3, type: 3}
-    spawnChance: 10
+    spawnChance: 8
   - prefab: {fileID: 4327571804581127957, guid: 8c0da51f83dcd104b9568e69320a6936, type: 3}
-    spawnChance: 10
+    spawnChance: 8
   - prefab: {fileID: 832664744094713139, guid: e52d31c31b459e444be33a65b89272eb, type: 3}
-    spawnChance: 10
+    spawnChance: 5
   - prefab: {fileID: 7968907786152716069, guid: c2291bc6944a3114684d96bcccb7005b, type: 3}
     spawnChance: 1
   - prefab: {fileID: 2306098203307285690, guid: 0b0a8fc6cadbaca4394b93fe938be3b3, type: 3}
@@ -903,7 +899,7 @@ Transform:
   m_GameObject: {fileID: 1995944198}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -57.45, z: 1}
+  m_LocalPosition: {x: 0, y: -57.45, z: -7}
   m_LocalScale: {x: 2.36, y: 12.574693, z: 2.0546873}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1162,13 +1158,13 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 2021780886}
+  - {fileID: 962267907}
+  - {fileID: 980009448}
+  - {fileID: 831623639}
   - {fileID: 715392251}
   - {fileID: 1564393353}
   - {fileID: 378160083}
   - {fileID: 453998405}
-  - {fileID: 980009448}
+  - {fileID: 2021780886}
   - {fileID: 1995944200}
-  - {fileID: 831623639}
-  - {fileID: 962267907}
   - {fileID: 3452562941515418132}
