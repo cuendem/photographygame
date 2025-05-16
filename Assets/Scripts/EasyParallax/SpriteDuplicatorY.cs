@@ -1,77 +1,90 @@
 using UnityEngine;
 
-namespace EasyParallax
+[RequireComponent(typeof(SpriteRenderer))]
+public class SpriteDuplicatorY : MonoBehaviour
 {
-    /**
-     * Creates vertical duplicates of this sprite going downward and recycles them as they scroll out of view.
-     */
-    [RequireComponent(typeof(SpriteRenderer))]
-    public class SpriteDuplicatorY : MonoBehaviour
+    [SerializeField] private int poolSize = 3;
+    [SerializeField] private float spriteRepositionCorrection = 0.03f;
+
+    private Transform[] pool;
+    private float spriteHeight;
+
+    [SerializeField] private bool isClone = false;
+
+    private bool isInitialized = false;
+
+    void Start()
     {
-        [SerializeField] private int poolSize = 5;
+        if (isClone) return;
 
-        [Tooltip("Determines how far down the sprite can move before being recycled")]
-        [SerializeField] private int spriteRepositionIndex = 2;
-
-        [Tooltip("Adjust this if there are visible gaps or overlaps between sprites")]
-        [SerializeField] private float spriteRepositionCorrection = 0.03f;
-
-        private Transform[] duplicatesPool;
-        private float spriteHeight;
-
-        private void Start()
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr == null)
         {
-            duplicatesPool = new Transform[poolSize];
-            spriteHeight = GetComponent<SpriteRenderer>().bounds.size.y;
-            duplicatesPool[0] = transform;
-
-            var startingPos = transform.position;
-
-            for (int i = 1; i < poolSize; i++)
-            {
-                var position = new Vector2(startingPos.x, CalculateYDownward(startingPos));
-                startingPos = position;
-
-                duplicatesPool[i] = Instantiate(gameObject, position, Quaternion.identity, transform.parent).transform;
-                Destroy(duplicatesPool[i].GetComponent<SpriteDuplicator>());
-            }
+            Debug.LogError("Missing SpriteRenderer!");
+            return;
         }
 
-        private void Update()
+        spriteHeight = sr.bounds.size.y;
+        pool = new Transform[poolSize];
+        pool[0] = transform;
+
+        Vector3 spawnPos = transform.position;
+
+        for (int i = 1; i < poolSize; i++)
         {
-            foreach (var duplicate in duplicatesPool)
+            spawnPos.y -= spriteHeight - spriteRepositionCorrection;
+
+            GameObject clone = Instantiate(gameObject, spawnPos, Quaternion.identity, transform.parent);
+            
+            SpriteDuplicatorY duplicator = clone.GetComponent<SpriteDuplicatorY>();
+            if (duplicator != null)
             {
-                if (duplicate.transform.position.y < -spriteHeight * spriteRepositionIndex)
+                duplicator.isClone = true;
+                duplicator.enabled = false; // disable Update() on clones entirely
+            }
+
+            pool[i] = clone.transform;
+        }
+
+        isInitialized = true;
+    }
+
+    void Update()
+    {
+        if (!isInitialized || pool == null) return;
+
+        foreach (Transform t in pool)
+        {
+            if (t == null) continue;
+
+            // When sprite goes too high (off screen), move it to the bottom
+            if (t.position.y > Camera.main.transform.position.y + spriteHeight)
+            {
+                Transform bottom = GetBottomMost();
+                if (bottom != null)
                 {
-                    var bottomSprite = GetBottomMostSprite();
-                    var startingPos = bottomSprite.position;
-                    var position = new Vector2(startingPos.x, CalculateYDownward(startingPos));
-                    duplicate.transform.position = position;
+                    Vector3 newPos = bottom.position;
+                    newPos.y -= spriteHeight - spriteRepositionCorrection;
+                    t.position = newPos;
                 }
             }
         }
+    }
 
-        private float CalculateYDownward(Vector3 startingPos)
+    private Transform GetBottomMost()
+    {
+        Transform bottom = null;
+        float lowestY = Mathf.Infinity;
+
+        foreach (Transform t in pool)
         {
-            return Mathf.FloorToInt(startingPos.y - spriteHeight) +
-                   spriteRepositionCorrection * transform.lossyScale.magnitude;
-        }
-
-        private Transform GetBottomMostSprite()
-        {
-            var lowestY = Mathf.Infinity;
-            Transform bottomSprite = null;
-
-            foreach (var duplicate in duplicatesPool)
+            if (t != null && t.position.y < lowestY)
             {
-                if (duplicate.position.y < lowestY)
-                {
-                    bottomSprite = duplicate;
-                    lowestY = duplicate.position.y;
-                }
+                lowestY = t.position.y;
+                bottom = t;
             }
-
-            return bottomSprite;
         }
+
+        return bottom;
     }
 }
