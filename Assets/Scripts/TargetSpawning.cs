@@ -19,6 +19,7 @@ public class TargetSpawning : MonoBehaviour
     private Vector2 yRange = new Vector2(0f, 0f);
 
     private float nextSpawnTime = 0f;
+    private float speedUpSpawnTimer = 0f;
 
     void Start()
     {
@@ -35,10 +36,23 @@ public class TargetSpawning : MonoBehaviour
 
     void Update()
     {
-        if (Time.time >= nextSpawnTime)
+        if (GameManager.Instance.powerUpActive && GameManager.Instance.powerUp == "SpeedUp")
         {
-            SpawnThing();
-            ScheduleNextSpawn();
+            speedUpSpawnTimer += Time.deltaTime;
+            if (speedUpSpawnTimer >= 0.2f)
+            {
+                SpawnThing();
+                speedUpSpawnTimer = 0f;
+            }
+        }
+        else
+        {
+            speedUpSpawnTimer = 0f; // Reset timer when not in SpeedUp
+            if (Time.time >= nextSpawnTime)
+            {
+                SpawnThing();
+                ScheduleNextSpawn();
+            }
         }
 
         // Manual spawn (optional)
@@ -57,7 +71,7 @@ public class TargetSpawning : MonoBehaviour
     void SpawnThing()
     {
         GameObject selectedPrefab = GetRandomPrefab();
-        if (selectedPrefab != null)
+        if (selectedPrefab != null && !(GameManager.Instance.powerUpActive && GameManager.Instance.powerUp == "Flash"))
         {
             float randomY = Random.Range(yRange.x, yRange.y);
             float randomX = Random.value > 0.5f ? xRange.x : xRange.y;

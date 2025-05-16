@@ -67,7 +67,7 @@ public class BasicFlight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (mobile)
+        if (mobile && !(GameManager.Instance.powerUpActive && GameManager.Instance.powerUp == "Flash"))
         {
             Flight();
 

@@ -25,15 +25,24 @@ public class Player : MonoBehaviour
             ScheduleNextPicture();
         }
 
-        if (Input.GetMouseButtonDown(1)){ // Right click
+        if (Input.GetMouseButtonDown(1)) // Right click
+        {
             UsePowerUp();
         }
 
+        if (GameManager.Instance.powerUpActive && GameManager.Instance.powerUp == "Zoom")
+        {
+            transform.localScale = Vector3.one * 0.4f;
+        }
+        else
+        {
+            transform.localScale = Vector3.one;
+        }
     }
 
     private void UsePowerUp()
     {
-        Debug.Log("Power-up used!");
+        GameManager.Instance.UsePowerUp();
     }
 
     void FollowMouse()
@@ -63,6 +72,7 @@ public class Player : MonoBehaviour
         List<string> summary = new List<string>();
 
         int totalPhotoMoney = 0;
+        string powerUp = "None";
 
         foreach (Collider2D col in hits)
         {
@@ -86,13 +96,30 @@ public class Player : MonoBehaviour
                         totalPhotoMoney += flight.money;
                         break;
                 }
+
+                if (!string.IsNullOrEmpty(flight.powerup))
+                {
+                    powerUp = flight.powerup;
+                }
             }
         }
 
         Debug.Log("📸 Picture Taken:\n" + string.Join(", ", summary));
         Debug.Log($"Total Picture Money: ${totalPhotoMoney}");
 
-        GameManager.Instance.AddMoney(totalPhotoMoney);
+        int multiplier = 1;
+
+        if (GameManager.Instance.powerUpActive && GameManager.Instance.powerUp == "Zoom")
+        {
+            multiplier = 2;
+        }
+
+        GameManager.Instance.AddMoney(totalPhotoMoney * multiplier);
+
+        if (powerUp != "None" && GameManager.Instance.powerUpActive == false)
+        {
+            GameManager.Instance.SetPowerUp(powerUp);
+        }
     }
 
     string GetObjectPositionStatus(Collider2D col)
