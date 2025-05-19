@@ -39,7 +39,7 @@ public class TargetSpawning : MonoBehaviour
         if (GameManager.Instance.powerUpActive && GameManager.Instance.powerUp == "SpeedUp")
         {
             speedUpSpawnTimer += Time.deltaTime;
-            if (speedUpSpawnTimer >= 0.2f)
+            if (speedUpSpawnTimer >= 0.1f)
             {
                 SpawnThing();
                 speedUpSpawnTimer = 0f;

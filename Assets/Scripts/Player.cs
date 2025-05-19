@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,12 +8,25 @@ public class Player : MonoBehaviour
     public BoxCollider2D outerCollider;
     public BoxCollider2D innerCollider;
 
-    private float pictureRate = 1f;
+    private float pictureRate = 0.7f;
     private float nextPictureTime = 0f;
+
+    private Vector3 targetScale = Vector3.one;
+    private float scaleSpeed = 6f;
+
+    private SpriteRenderer playerSprite;
+    private SpriteRenderer flashRenderer;
 
     private void Start()
     {
-        
+        // Find the child called "Flash" and get its SpriteRenderer
+        flashRenderer = transform.Find("Flash")?.GetComponent<SpriteRenderer>();
+        playerSprite = GetComponent<SpriteRenderer>();
+
+        if (flashRenderer != null)
+        {
+            flashRenderer.color = new Color(1f, 1f, 1f, 0f); // Fully transparent
+        }
     }
 
     void Update()
@@ -30,13 +44,23 @@ public class Player : MonoBehaviour
             UsePowerUp();
         }
 
+        // Set the target scale based on power-up state
         if (GameManager.Instance.powerUpActive && GameManager.Instance.powerUp == "Zoom")
         {
-            transform.localScale = Vector3.one * 0.4f;
+            targetScale = Vector3.one * 0.4f;
         }
         else
         {
-            transform.localScale = Vector3.one;
+            targetScale = Vector3.one;
+        }
+
+        // Smoothly interpolate to the target scale
+        transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * scaleSpeed);
+
+        // Flash effect
+        if (flashRenderer != null)
+        {
+            flashRenderer.color = new Color(1f, 1f, 1f, Mathf.Clamp01(flashRenderer.color.a - Time.deltaTime * 5f)); // Fade out
         }
     }
 
@@ -60,11 +84,16 @@ public class Player : MonoBehaviour
         transform.position = new Vector2(clampedX, clampedY);
 
         Cursor.visible = false;
-
     }
 
     void TakePicture()
     {
+        transform.localScale = transform.localScale * 0.8f;
+        flashRenderer.color = new Color(1f, 1f, 1f, 1f); // Flash
+
+        // Start coroutine to capture screenshot portion and instantiate photograph
+        StartCoroutine(CapturePhotoCoroutine());
+
         Vector2 center = outerCollider.bounds.center;
         Vector2 size = outerCollider.bounds.size;
 
@@ -101,6 +130,12 @@ public class Player : MonoBehaviour
                 {
                     powerUp = flight.powerup;
                 }
+            }
+
+            // Delete if object is an insect
+            if (obj.CompareTag("Insect"))
+            {
+                Destroy(obj);
             }
         }
 
@@ -140,5 +175,57 @@ public class Player : MonoBehaviour
     void ScheduleNextPicture()
     {
         nextPictureTime = Time.time + pictureRate;
+    }
+
+    private IEnumerator CapturePhotoCoroutine()
+    {
+        // Make player invisible for a moment
+        playerSprite.enabled = false;
+        flashRenderer.enabled = false;
+
+        yield return new WaitForEndOfFrame(); // Wait for end of frame to capture the screen
+
+        // Get the bounds of the outer collider in world space
+        Bounds bounds = outerCollider.bounds;
+
+        // Convert world bounds to screen pixels
+        Vector3 bottomLeft = Camera.main.WorldToScreenPoint(new Vector3(bounds.min.x, bounds.min.y));
+        Vector3 topRight = Camera.main.WorldToScreenPoint(new Vector3(bounds.max.x, bounds.max.y));
+
+        // Calculate rectangle in screen coordinates
+        int width = Mathf.CeilToInt(topRight.x - bottomLeft.x);
+        int height = Mathf.CeilToInt(topRight.y - bottomLeft.y);
+
+        // Clamp coordinates and size to screen bounds to avoid errors
+        int x = Mathf.Clamp(Mathf.FloorToInt(bottomLeft.x), 0, Screen.width);
+        int y = Mathf.Clamp(Mathf.FloorToInt(bottomLeft.y), 0, Screen.height);
+        width = Mathf.Clamp(width, 0, Screen.width - x);
+        height = Mathf.Clamp(height, 0, Screen.height - y);
+
+        // Read pixels from the screen
+        Texture2D screenTexture = new Texture2D(width, height, TextureFormat.RGBA32, false);
+        screenTexture.ReadPixels(new Rect(x, y, width, height), 0, 0);
+        screenTexture.Apply();
+
+        // Create a sprite from the texture
+        Sprite photoSprite = Sprite.Create(screenTexture,
+            new Rect(0, 0, width, height),
+            new Vector2(0.5f, 0.5f), 100f); // 100 pixels per unit, adjust if needed
+
+        // Instantiate Photograph and assign sprite
+        GameObject photoObj = Instantiate(Resources.Load("Photograph"), transform.position, Quaternion.identity) as GameObject;
+        Transform takenPhotoTransform = photoObj.transform.Find("TakenPhoto");
+        if (takenPhotoTransform != null)
+        {
+            SpriteRenderer sr = takenPhotoTransform.GetComponent<SpriteRenderer>();
+            if (sr != null)
+            {
+            sr.sprite = photoSprite;
+            }
+        }
+
+        // Make player visible again
+        playerSprite.enabled = true;
+        flashRenderer.enabled = true;
     }
 }

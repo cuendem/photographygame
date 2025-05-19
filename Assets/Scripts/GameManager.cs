@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     public Image powerUpImage;
     public Sprite[] powerUpSprites;
 
+    public Flash flash;
+
     void Awake()
     {
         // Singleton pattern
@@ -123,7 +125,7 @@ public class GameManager : MonoBehaviour
             switch (powerUp)
             {
                 case "Flash":
-                    powerUpDuration = 3f;
+                    powerUpDuration = 2.5f;
 
                     // Iterate through all objects with the "Bird", "Vehicle" or "Insect" tags and summon a FlashedStar above them
                     GameObject[] birds = GameObject.FindGameObjectsWithTag("Bird");
@@ -138,16 +140,19 @@ public class GameManager : MonoBehaviour
 
                     foreach (GameObject obj in allObjects)
                     {
-                        Vector3 spawnPosition = new Vector3(obj.transform.position.x, obj.transform.position.y + 0.4f, obj.transform.position.z);
+                        Vector3 spawnPosition = new Vector3(obj.transform.position.x, obj.transform.position.y + 0.6f, obj.transform.position.z);
                         GameObject flashedStar = Instantiate(Resources.Load("FlashedStar"), spawnPosition, Quaternion.identity) as GameObject;
                         flashedStar.transform.SetParent(obj.transform);
                     }
+
+                    flash.TriggerFlash();
+
                     break;
                 case "SpeedUp":
-                    powerUpDuration = 5f;
+                    powerUpDuration = 2f;
                     break;
                 case "Zoom":
-                    powerUpDuration = 10f;
+                    powerUpDuration = 5f;
                     break;
             }
 
