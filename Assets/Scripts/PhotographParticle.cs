@@ -3,9 +3,9 @@ using UnityEngine;
 public class PhotographParticle : MonoBehaviour
 {
     private Rigidbody2D rb;
-    public float minSpeedX = 2f;
-    public float maxSpeedX = 7f;
-    public float minSpeedY = 6f;
+    public float minSpeedX = 1f;
+    public float maxSpeedX = 8f;
+    public float minSpeedY = 4f;
     public float maxSpeedY = 10f;
     public float minRotationSpeed = 20f;
     public float maxRotationSpeed = 150f;
@@ -49,7 +49,7 @@ public class PhotographParticle : MonoBehaviour
     void Update()
     {
         // Disappear if offscreen
-        if (transform.position.x < -15f)
+        if (transform.position.y < -15f)
         {
             Destroy(gameObject);
         }

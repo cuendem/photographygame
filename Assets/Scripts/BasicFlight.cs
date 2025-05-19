@@ -67,31 +67,9 @@ public class BasicFlight : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (mobile && !(GameManager.Instance.powerUpActive && GameManager.Instance.powerUp == "Flash"))
+        if (mobile && (!(GameManager.Instance.powerUpActive && GameManager.Instance.powerUp == "Flash") || gameObject.CompareTag("Vehicle")))
         {
             Flight();
-
-            // Chance to move to the end of the screen and come back
-            if ((transform.position.x > 9f && direction == 1) || (transform.position.x < -9f && direction == -1)) {
-                if (Random.value < 0.3f && !hasBoomeranged)
-                {
-                    direction *= -1; // Reverse direction
-                    hasBoomeranged = true;
-                    if (spriteRenderer.flipX == true) {
-                        spriteRenderer.flipX = false;
-                    } else {
-                        spriteRenderer.flipX = true;
-                    }
-                } else {
-                    hasBoomeranged = true;
-                }
-            }
-
-            // Destroy the object if it goes off-screen
-            if (transform.position.x < -15f || transform.position.x > 15f)
-            {
-                Destroy(gameObject);
-            }
         }
     }
 
@@ -105,5 +83,27 @@ public class BasicFlight : MonoBehaviour
         Vector3 position = transform.position;
         position.y = baseY + waveOffset;
         transform.position = position;
+
+        // Chance to move to the end of the screen and come back
+        if ((transform.position.x > 9f && direction == 1) || (transform.position.x < -9f && direction == -1)) {
+            if (Random.value < 0.3f && !hasBoomeranged)
+            {
+                direction *= -1; // Reverse direction
+                hasBoomeranged = true;
+                if (spriteRenderer.flipX == true) {
+                    spriteRenderer.flipX = false;
+                } else {
+                    spriteRenderer.flipX = true;
+                }
+            } else {
+                hasBoomeranged = true;
+            }
+        }
+
+        // Destroy the object if it goes off-screen
+        if (transform.position.x < -15f || transform.position.x > 15f)
+        {
+            Destroy(gameObject);
+        }
     }
 }

@@ -91,6 +91,8 @@ public class Player : MonoBehaviour
         transform.localScale = transform.localScale * 0.8f;
         flashRenderer.color = new Color(1f, 1f, 1f, 1f); // Flash
 
+        List<int> highscores = GameManager.Instance.GetHighScores();
+
         // Start coroutine to capture screenshot portion and instantiate photograph
         StartCoroutine(CapturePhotoCoroutine());
 
@@ -103,6 +105,8 @@ public class Player : MonoBehaviour
         int totalPhotoMoney = 0;
         string powerUp = "None";
 
+        int totalElements = 0;
+
         foreach (Collider2D col in hits)
         {
             GameObject obj = col.gameObject;
@@ -111,18 +115,53 @@ public class Player : MonoBehaviour
 
             if (obj.TryGetComponent(out BasicFlight flight))
             {
+                totalElements++;
                 summary.Add($"{name} ({position})");
 
                 switch (position)
                 {
                     case "CENTERED":
                         totalPhotoMoney += flight.money * 3;
+                        highscores[16]++;
                         break;
                     case "CONTAINED":
                         totalPhotoMoney += flight.money * 2;
+                        highscores[17]++;
                         break;
                     case "CUT":
                         totalPhotoMoney += flight.money;
+                        highscores[18]++;
+                        break;
+                }
+
+                switch (name)
+                {
+                    case "Parakeet(Clone)":
+                        highscores[0]++;
+                        break;
+                    case "Parrot(Clone)":
+                        highscores[1]++;
+                        break;
+                    case "Hummingbird(Clone)":
+                        highscores[2]++;
+                        break;
+                    case "Helicopter(Clone)":
+                        highscores[3]++;
+                        break;
+                    case "Balloon(Clone)":
+                        highscores[4]++;
+                        break;
+                    case "Plane(Clone)":
+                        highscores[5]++;
+                        break;
+                    case "Firefly(Clone)":
+                        highscores[6]++;
+                        break;
+                    case "Butterfly(Clone)":
+                        highscores[7]++;
+                        break;
+                    case "Ladybug(Clone)":
+                        highscores[8]++;
                         break;
                 }
 
@@ -142,6 +181,24 @@ public class Player : MonoBehaviour
         Debug.Log("📸 Picture Taken:\n" + string.Join(", ", summary));
         Debug.Log($"Total Picture Money: ${totalPhotoMoney}");
 
+        highscores[19]++;
+
+        if (totalPhotoMoney >= 0) {
+            highscores[9] += totalPhotoMoney;
+        } else {
+            highscores[10] += totalPhotoMoney;
+        }
+
+        if (totalPhotoMoney > highscores[14])
+        {
+            highscores[14] = totalPhotoMoney;
+        }
+
+        if (totalElements > highscores[15])
+        {
+            highscores[15] = totalElements;
+        }
+
         int multiplier = 1;
 
         if (GameManager.Instance.powerUpActive && GameManager.Instance.powerUp == "Zoom")
@@ -155,6 +212,8 @@ public class Player : MonoBehaviour
         {
             GameManager.Instance.SetPowerUp(powerUp);
         }
+
+        GameManager.Instance.SetHighScores(highscores);
     }
 
     string GetObjectPositionStatus(Collider2D col)

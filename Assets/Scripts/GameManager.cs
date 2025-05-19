@@ -1,6 +1,8 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,6 +21,8 @@ public class GameManager : MonoBehaviour
 
     public Flash flash;
 
+    public List<int> highScores;
+
     void Awake()
     {
         // Singleton pattern
@@ -30,6 +34,11 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(gameObject); // Prevent duplicates
+        }
+
+        if (highScores == null || highScores.Count < 20)
+        {
+            highScores = new List<int>(new int[20]);
         }
     }
 
@@ -129,14 +138,14 @@ public class GameManager : MonoBehaviour
 
                     // Iterate through all objects with the "Bird", "Vehicle" or "Insect" tags and summon a FlashedStar above them
                     GameObject[] birds = GameObject.FindGameObjectsWithTag("Bird");
-                    GameObject[] vehicles = GameObject.FindGameObjectsWithTag("Vehicle");
+                    // GameObject[] vehicles = GameObject.FindGameObjectsWithTag("Vehicle");
                     GameObject[] insects = GameObject.FindGameObjectsWithTag("Insect");
 
-                    GameObject[] allObjects = new GameObject[birds.Length + vehicles.Length + insects.Length];
+                    GameObject[] allObjects = new GameObject[birds.Length + insects.Length];
 
                     birds.CopyTo(allObjects, 0);
-                    vehicles.CopyTo(allObjects, birds.Length);
-                    insects.CopyTo(allObjects, birds.Length + vehicles.Length);
+                    // vehicles.CopyTo(allObjects, birds.Length);
+                    insects.CopyTo(allObjects, birds.Length);
 
                     foreach (GameObject obj in allObjects)
                     {
@@ -147,12 +156,16 @@ public class GameManager : MonoBehaviour
 
                     flash.TriggerFlash();
 
+                    highScores[11]++;
+
                     break;
                 case "SpeedUp":
                     powerUpDuration = 2f;
+                    highScores[12]++;
                     break;
                 case "Zoom":
                     powerUpDuration = 5f;
+                    highScores[13]++;
                     break;
             }
 
@@ -163,5 +176,37 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("No power-up to use.");
         }
+    }
+
+    public List<int> GetHighScores()
+    {
+        return highScores;
+
+        // 0 = Parakeets photographed
+        // 1 = Parrots photographed
+        // 2 = Hummingbirds photographed
+        // 3 = Helicopters photographed
+        // 4 = Balloons photographed
+        // 5 = Planes photographed
+        // 6 = Fireflies photographed
+        // 7 = Butterflies photographed
+        // 8 = Ladybugs photographed
+        // 9 = Money earned
+        // 10 = Money lost
+        // 11 = Flashes used
+        // 12 = Speed Ups used
+        // 13 = Zooms used
+        // 14 = Highest value photograph
+        // 15 = Highest amount of elements in a photograph
+        // 16 = Total elements taken centered
+        // 17 = Total elements taken contained
+        // 18 = Total elements taken cut
+        // 19 = Total photos taken
+    }
+
+    public void SetHighScores(List<int> scores)
+    {
+        highScores = scores;
+        Debug.Log("High scores updated: " + string.Join(", ", highScores));
     }
 }
