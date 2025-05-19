@@ -46,22 +46,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnablePrefabs:
   - prefab: {fileID: 7490069660035872920, guid: 8ea491b652dfbff4d90b9504ba39c78a, type: 3}
-    spawnChance: 40
+    spawnChance: 35
   - prefab: {fileID: 3251800352887088602, guid: a04c03a13e8f20a44ba8f0ced2c69c4a, type: 3}
-    spawnChance: 20
+    spawnChance: 15
   - prefab: {fileID: 1653321825453010932, guid: cefb956e24bb217419c98deeabe2d6fd, type: 3}
-    spawnChance: 5
+    spawnChance: 8
   - prefab: {fileID: 7733058795524490963, guid: 4d7b0033b24d9b24dbba0a4178008eb3, type: 3}
-    spawnChance: 10
+    spawnChance: 5
   - prefab: {fileID: 4327571804581127957, guid: 8c0da51f83dcd104b9568e69320a6936, type: 3}
-    spawnChance: 10
+    spawnChance: 5
   - prefab: {fileID: 832664744094713139, guid: e52d31c31b459e444be33a65b89272eb, type: 3}
-    spawnChance: 10
+    spawnChance: 5
   - prefab: {fileID: 7968907786152716069, guid: c2291bc6944a3114684d96bcccb7005b, type: 3}
-    spawnChance: 10
+    spawnChance: 3
   - prefab: {fileID: 2306098203307285690, guid: 0b0a8fc6cadbaca4394b93fe938be3b3, type: 3}
-    spawnChance: 10
+    spawnChance: 3
   - prefab: {fileID: 7146684136841131024, guid: 43cbc5c979531234eb33d390dd275ec8, type: 3}
-    spawnChance: 10
+    spawnChance: 3
+  spawnableBirds:
+  - prefab: {fileID: 7490069660035872920, guid: 8ea491b652dfbff4d90b9504ba39c78a, type: 3}
+    spawnChance: 35
+  - prefab: {fileID: 3251800352887088602, guid: a04c03a13e8f20a44ba8f0ced2c69c4a, type: 3}
+    spawnChance: 15
+  - prefab: {fileID: 1653321825453010932, guid: cefb956e24bb217419c98deeabe2d6fd, type: 3}
+    spawnChance: 8
   minTime: 0
-  maxTime: 1.5
+  maxTime: 1.2

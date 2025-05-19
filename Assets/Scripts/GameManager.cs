@@ -36,9 +36,9 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject); // Prevent duplicates
         }
 
-        if (highScores == null || highScores.Count < 20)
+        if (highScores == null || highScores.Count < 21)
         {
-            highScores = new List<int>(new int[20]);
+            highScores = new List<int>(new int[21]);
         }
     }
 
@@ -154,6 +154,8 @@ public class GameManager : MonoBehaviour
                         flashedStar.transform.SetParent(obj.transform);
                     }
 
+                    ShakeScreen(0.3f, 0.2f);
+
                     flash.TriggerFlash();
 
                     highScores[11]++;
@@ -162,6 +164,7 @@ public class GameManager : MonoBehaviour
                 case "SpeedUp":
                     powerUpDuration = 2f;
                     highScores[12]++;
+                    ShakeScreen(2f, 0.05f);
                     break;
                 case "Zoom":
                     powerUpDuration = 5f;
@@ -202,11 +205,37 @@ public class GameManager : MonoBehaviour
         // 17 = Total elements taken contained
         // 18 = Total elements taken cut
         // 19 = Total photos taken
+        // 20 = Lowest value photograph
     }
 
     public void SetHighScores(List<int> scores)
     {
         highScores = scores;
         Debug.Log("High scores updated: " + string.Join(", ", highScores));
+    }
+
+    public void ShakeScreen(float duration = 0.2f, float magnitude = 0.1f)
+    {
+        StartCoroutine(ShakeScreenCoroutine(duration, magnitude));
+    }
+
+    public IEnumerator ShakeScreenCoroutine(float duration = 0.2f, float magnitude = 0.1f)
+    {
+        Vector3 originalPos = Camera.main.transform.localPosition;
+
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            float offsetX = Random.Range(-1f, 1f) * magnitude;
+            float offsetY = Random.Range(-1f, 1f) * magnitude;
+
+            Camera.main.transform.localPosition = originalPos + new Vector3(offsetX, offsetY, 0f);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        Camera.main.transform.localPosition = originalPos;
     }
 }

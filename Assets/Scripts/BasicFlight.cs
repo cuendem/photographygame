@@ -18,6 +18,8 @@ public class BasicFlight : MonoBehaviour
     public float maxScale = 1.5f;
     public float minScale = 0.5f;
 
+    public bool floatAway = false;
+
     private float xSpeed = 0f;
     private float ySpeed = 0f;
     private int direction = 1; // 1 for right, -1 for left
@@ -79,10 +81,16 @@ public class BasicFlight : MonoBehaviour
         transform.Translate(Vector3.right * xSpeed * direction * Time.deltaTime);
 
         // Apply vertical wave offset relative to baseY
-        float waveOffset = Mathf.Sin(Time.time * waveFrequency) * waveAmplitude;
-        Vector3 position = transform.position;
-        position.y = baseY + waveOffset;
-        transform.position = position;
+        if (!floatAway)
+        {
+            float waveOffset = Mathf.Sin(Time.time * waveFrequency) * waveAmplitude;
+            Vector3 position = transform.position;
+            position.y = baseY + waveOffset;
+            transform.position = position;
+        } else {
+            // Float away vertically
+            transform.Translate(Vector3.up * (ySpeed * 2) * Time.deltaTime);
+        }
 
         // Chance to move to the end of the screen and come back
         if ((transform.position.x > 9f && direction == 1) || (transform.position.x < -9f && direction == -1)) {

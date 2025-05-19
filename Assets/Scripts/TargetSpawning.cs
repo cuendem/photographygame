@@ -11,6 +11,7 @@ public class SpawnablePrefab
 public class TargetSpawning : MonoBehaviour
 {
     public List<SpawnablePrefab> spawnablePrefabs; // List of prefabs to spawn
+    public List<SpawnablePrefab> spawnableBirds; // List of birds to spawn when speeding up
 
     public float minTime = 0f; // Minimum time between spawns
     public float maxTime = 1f; // Maximum time between spawns
@@ -39,7 +40,7 @@ public class TargetSpawning : MonoBehaviour
         if (GameManager.Instance.powerUpActive && GameManager.Instance.powerUp == "SpeedUp")
         {
             speedUpSpawnTimer += Time.deltaTime;
-            if (speedUpSpawnTimer >= 0.1f)
+            if (speedUpSpawnTimer >= 0.2f)
             {
                 SpawnThing();
                 speedUpSpawnTimer = 0f;
@@ -83,24 +84,46 @@ public class TargetSpawning : MonoBehaviour
 
     GameObject GetRandomPrefab()
     {
-        float totalChance = 0f;
-        foreach (var spawnable in spawnablePrefabs)
-        {
-            totalChance += spawnable.spawnChance;
-        }
-
-        float randomValue = Random.Range(0f, totalChance);
-        float cumulativeChance = 0f;
-
-        foreach (var spawnable in spawnablePrefabs)
-        {
-            cumulativeChance += spawnable.spawnChance;
-            if (randomValue <= cumulativeChance)
+        if (GameManager.Instance.powerUpActive && GameManager.Instance.powerUp == "SpeedUp") {
+            float totalChance = 0f;
+            foreach (var spawnable in spawnableBirds)
             {
-                return spawnable.prefab;
+                totalChance += spawnable.spawnChance;
             }
-        }
 
-        return null;
+            float randomValue = Random.Range(0f, totalChance);
+            float cumulativeChance = 0f;
+
+            foreach (var spawnable in spawnableBirds)
+            {
+                cumulativeChance += spawnable.spawnChance;
+                if (randomValue <= cumulativeChance)
+                {
+                    return spawnable.prefab;
+                }
+            }
+
+            return null;
+        } else {
+            float totalChance = 0f;
+            foreach (var spawnable in spawnablePrefabs)
+            {
+                totalChance += spawnable.spawnChance;
+            }
+
+            float randomValue = Random.Range(0f, totalChance);
+            float cumulativeChance = 0f;
+
+            foreach (var spawnable in spawnablePrefabs)
+            {
+                cumulativeChance += spawnable.spawnChance;
+                if (randomValue <= cumulativeChance)
+                {
+                    return spawnable.prefab;
+                }
+            }
+
+            return null;
+        }
     }
 }

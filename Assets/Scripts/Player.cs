@@ -91,6 +91,8 @@ public class Player : MonoBehaviour
         transform.localScale = transform.localScale * 0.8f;
         flashRenderer.color = new Color(1f, 1f, 1f, 1f); // Flash
 
+        GameManager.Instance.ShakeScreen(0.1f, 0.05f);
+
         List<int> highscores = GameManager.Instance.GetHighScores();
 
         // Start coroutine to capture screenshot portion and instantiate photograph
@@ -171,10 +173,10 @@ public class Player : MonoBehaviour
                 }
             }
 
-            // Delete if object is an insect
-            if (obj.CompareTag("Insect"))
+            // Delete if object is a bird or insect
+            if (obj.CompareTag("Bird") || obj.CompareTag("Insect"))
             {
-                Destroy(obj);
+                obj.GetComponent<BasicFlight>().floatAway = true;
             }
         }
 
@@ -192,6 +194,11 @@ public class Player : MonoBehaviour
         if (totalPhotoMoney > highscores[14])
         {
             highscores[14] = totalPhotoMoney;
+        }
+
+        if (totalPhotoMoney < highscores[20])
+        {
+            highscores[20] = totalPhotoMoney;
         }
 
         if (totalElements > highscores[15])

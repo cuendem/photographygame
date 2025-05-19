@@ -9,6 +9,7 @@ public class PhotographParticle : MonoBehaviour
     public float maxSpeedY = 10f;
     public float minRotationSpeed = 20f;
     public float maxRotationSpeed = 150f;
+    public float fadeSpeed = 1.5f;
 
     void Start()
     {
@@ -48,9 +49,38 @@ public class PhotographParticle : MonoBehaviour
 
     void Update()
     {
-        // Disappear if offscreen
-        if (transform.position.y < -15f)
+        // Fade this object's sprite
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null) {
+            Color color = sr.color;
+            if (color.a > 0f) {
+                color.a -= Time.deltaTime * fadeSpeed;
+                color.a = Mathf.Clamp01(color.a);
+                sr.color = color;
+            }
+        }
+
+        // Fade the two inner children: TakenPhoto and Shine
+        string[] childNames = { "TakenPhoto", "Shine" };
+        foreach (string childName in childNames)
         {
+            Transform child = transform.Find(childName);
+            if (child != null) {
+                SpriteRenderer childSr = child.GetComponent<SpriteRenderer>();
+                if (childSr != null)
+                {
+                    Color childColor = childSr.color;
+                    if (childColor.a > 0f) {
+                        childColor.a -= Time.deltaTime * fadeSpeed;
+                        childColor.a = Mathf.Clamp01(childColor.a);
+                        childSr.color = childColor;
+                    }
+                }
+            }
+        }
+
+        // Disappear if offscreen
+        if (transform.position.y < -15f) {
             Destroy(gameObject);
         }
     }
