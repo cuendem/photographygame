@@ -9,7 +9,7 @@ public class PhotographParticle : MonoBehaviour
     public float maxSpeedY = 10f;
     public float minRotationSpeed = 20f;
     public float maxRotationSpeed = 150f;
-    public float fadeSpeed = 1.5f;
+    public float fadeSpeed = 1f;
 
     void Start()
     {

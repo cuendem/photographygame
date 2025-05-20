@@ -206,18 +206,22 @@ public class Player : MonoBehaviour
             highscores[15] = totalElements;
         }
 
-        int multiplier = 1;
+        float multiplier = 1f;
 
         if (GameManager.Instance.powerUpActive && GameManager.Instance.powerUp == "Zoom")
         {
-            multiplier = 2;
+            multiplier = 2.5f;
         }
 
-        GameManager.Instance.AddMoney(totalPhotoMoney * multiplier);
+        GameManager.Instance.AddMoney(Mathf.FloorToInt(totalPhotoMoney * multiplier));
 
         if (powerUp != "None" && GameManager.Instance.powerUpActive == false)
         {
             GameManager.Instance.SetPowerUp(powerUp);
+            PowerBar powerBar = GameObject.Find("PowerBarOverlay").GetComponent<PowerBar>();
+            powerBar.ResetTimer();
+            Flash flash = GameObject.Find("PowerFlash").GetComponent<Flash>();
+            flash.TriggerFlash();
         }
 
         GameManager.Instance.SetHighScores(highscores);
@@ -273,10 +277,20 @@ public class Player : MonoBehaviour
         screenTexture.ReadPixels(new Rect(x, y, width, height), 0, 0);
         screenTexture.Apply();
 
-        // Create a sprite from the texture
-        Sprite photoSprite = Sprite.Create(screenTexture,
-            new Rect(0, 0, width, height),
-            new Vector2(0.5f, 0.5f), 100f); // 100 pixels per unit, adjust if needed
+        // Desired fixed width in pixels
+        int targetWidth = 256;
+
+        // Calculate target height to maintain aspect ratio
+        float aspectRatio = (float)screenTexture.height / screenTexture.width;
+        int targetHeight = Mathf.RoundToInt(targetWidth * aspectRatio);
+
+        // Resize the texture to (targetWidth, targetHeight)
+        Texture2D resizedTexture = ResizeTexture(screenTexture, targetWidth, targetHeight);
+
+        // Create the sprite from the resized texture
+        Sprite photoSprite = Sprite.Create(resizedTexture,
+            new Rect(0, 0, targetWidth, targetHeight),
+            new Vector2(0.5f, 0.5f), 100f);
 
         // Instantiate Photograph and assign sprite
         GameObject photoObj = Instantiate(Resources.Load("Photograph"), transform.position, Quaternion.identity) as GameObject;
@@ -293,5 +307,23 @@ public class Player : MonoBehaviour
         // Make player visible again
         playerSprite.enabled = true;
         flashRenderer.enabled = true;
+    }
+
+    private Texture2D ResizeTexture(Texture2D source, int newWidth, int newHeight)
+    {
+        RenderTexture rt = RenderTexture.GetTemporary(newWidth, newHeight);
+        rt.filterMode = FilterMode.Bilinear;
+
+        RenderTexture.active = rt;
+        Graphics.Blit(source, rt);
+        
+        Texture2D result = new Texture2D(newWidth, newHeight, TextureFormat.RGBA32, false);
+        result.ReadPixels(new Rect(0, 0, newWidth, newHeight), 0, 0);
+        result.Apply();
+
+        RenderTexture.active = null;
+        RenderTexture.ReleaseTemporary(rt);
+
+        return result;
     }
 }

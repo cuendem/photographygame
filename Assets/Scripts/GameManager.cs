@@ -66,6 +66,21 @@ public class GameManager : MonoBehaviour
         }
         Debug.Log("Money updated: " + money);
         moneyText.text = "$" + money.ToString();
+
+        // Show payout text
+        if (amount != 0) {
+            Canvas canvas = GameObject.FindFirstObjectByType<Canvas>();
+
+            // Instantiate the payout object and parent it to the canvas
+            GameObject payoutObject = Instantiate(Resources.Load("Payout")) as GameObject;
+            payoutObject.transform.SetParent(canvas.transform, false); // 'false' keeps local scale/position intact
+
+            payoutObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(-285, -180);
+
+            // Set payout value
+            Payout payout = payoutObject.GetComponent<Payout>();
+            payout.SetPayout(amount);
+        }
     }
 
     public void SetMoney(int value)
@@ -171,6 +186,9 @@ public class GameManager : MonoBehaviour
                     highScores[13]++;
                     break;
             }
+
+            PowerBar powerBar = GameObject.Find("PowerBarOverlay").GetComponent<PowerBar>();
+            powerBar.SetTimer(powerUpDuration);
 
             elapsedPowerUpTime = 0f;
             powerUpActive = true;
