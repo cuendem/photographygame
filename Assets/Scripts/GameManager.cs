@@ -3,26 +3,26 @@ using TMPro;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-
+    public float timeLimit = 180f; // Total game time in seconds
+    public float remainingTime = 0f;
+    public bool gameStarted = false;
+    public bool gamePaused = false;
     public int money = 0;
     public string powerUp = "None";
     public bool powerUpActive = false;
-
     public float powerUpDuration = 5f;
     public float elapsedPowerUpTime = 0f;
 
-    public TextMeshProUGUI moneyText;
-    public Image powerUpImage;
-    public Sprite[] powerUpSprites;
-
-    public Flash flash;
-
-    public List<int> highScores;
-
+    private TextMeshProUGUI moneyText;
+    private TextMeshProUGUI timerText;
+    private Image powerUpImage;
+    private Flash flash;
+    private List<int> highScores;
     private AudioSource audioSource;
 
     void Awake()
@@ -59,6 +59,23 @@ public class GameManager : MonoBehaviour
                 ClearPowerUp();
             }
         }
+        if (gameStarted && !gamePaused)
+        {
+            timerText = GameObject.Find("Time").GetComponent<TextMeshProUGUI>();
+
+            int minutes = Mathf.FloorToInt(remainingTime / 60);
+            int seconds = Mathf.FloorToInt(remainingTime % 60);
+            timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+
+            remainingTime -= Time.deltaTime;
+
+            if (remainingTime <= 0f)
+            {
+                remainingTime = 0f;
+                gameStarted = false;
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Results");
+            }
+        }
     }
 
     public void AddMoney(int amount)
@@ -69,6 +86,9 @@ public class GameManager : MonoBehaviour
             money = 0;
         }
         Debug.Log("Money updated: " + money);
+
+        moneyText = GameObject.Find("MoneyUI").GetComponent<TextMeshProUGUI>();
+
         moneyText.text = "$" + money.ToString();
 
         // Show payout text
@@ -91,6 +111,7 @@ public class GameManager : MonoBehaviour
     {
         money = value;
         Debug.Log("Money set to: " + money);
+        moneyText = GameObject.Find("MoneyUI").GetComponent<TextMeshProUGUI>();
         moneyText.text = "$" + money.ToString();
     }
 
@@ -101,13 +122,13 @@ public class GameManager : MonoBehaviour
 
     public Sprite GetPowerUpSprite(string powerUpName)
     {
-        foreach (Sprite sprite in powerUpSprites)
+        Sprite sprite = Resources.Load<Sprite>(powerUpName);
+
+        if (sprite != null)
         {
-            if (sprite.name == powerUpName)
-            {
-                return sprite;
-            }
+            return sprite;
         }
+
         return null; // Return null if no matching sprite is found
     }
 
@@ -118,6 +139,7 @@ public class GameManager : MonoBehaviour
         Sprite sprite = GetPowerUpSprite(powerUpName);
         if (sprite != null)
         {
+            powerUpImage = GameObject.Find("Powerup").GetComponent<Image>();
             powerUpImage.sprite = sprite;
             powerUpImage.enabled = true;
         }
@@ -126,8 +148,16 @@ public class GameManager : MonoBehaviour
     public void ClearPowerUp()
     {
         powerUp = "None";
+        powerUpImage = GameObject.Find("Powerup").GetComponent<Image>();
+
+        if (powerUpImage == null)
+        {
+            Debug.LogError("Powerup image not found!");
+            return;
+        }
+
         powerUpImage.enabled = false; // Hide the image
-        powerUpImage.sprite = null;   // Optional: clear the sprite to avoid showing old image if re-enabled later
+        powerUpImage.sprite = null;
         Color imgColor = powerUpImage.color;
         imgColor.a = 1f;
         powerUpImage.color = imgColor;
@@ -141,6 +171,7 @@ public class GameManager : MonoBehaviour
 
     public void UsePowerUp()
     {
+        powerUpImage = GameObject.Find("Powerup").GetComponent<Image>();
         if (powerUp != "None")
         {
             Debug.Log("Using power-up: " + powerUp);
@@ -174,6 +205,8 @@ public class GameManager : MonoBehaviour
                     }
 
                     ShakeScreen(0.3f, 0.2f);
+
+                    flash = GameObject.Find("FlashOverlay").GetComponent<Flash>();
 
                     flash.TriggerFlash();
 
@@ -267,6 +300,50 @@ public class GameManager : MonoBehaviour
         if (clip != null)
         {
             audioSource.PlayOneShot(clip);
+        }
+    }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Results")
+        {
+            Cursor.visible = true;
+            Debug.Log("Loading results scene...");
+            for (int i = 0; i < highScores.Count; i++)
+            {
+                TextMeshProUGUI scoreText = GameObject.Find("Score" + i).GetComponent<TextMeshProUGUI>();
+                string newText = "";
+
+                int[] dollarIndices = { 9, 14 };
+                int[] minusDollarIndices = { 10, 20 };
+
+                if (System.Array.IndexOf(dollarIndices, i) >= 0)
+                {
+                    newText = "$" + highScores[i].ToString();
+                }
+                else if (System.Array.IndexOf(minusDollarIndices, i) >= 0)
+                {
+                    newText = "-$" + (-highScores[i]).ToString();
+                }
+                else
+                {
+                    newText = highScores[i].ToString();
+                }
+
+                scoreText.text = newText;
+            }
+            TextMeshProUGUI finalScoreText = GameObject.Find("FinalScore").GetComponent<TextMeshProUGUI>();
+            finalScoreText.text = "$" + money.ToString();
         }
     }
 }
