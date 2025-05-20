@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
 
     public List<int> highScores;
 
+    private AudioSource audioSource;
+
     void Awake()
     {
         // Singleton pattern
@@ -40,6 +42,8 @@ public class GameManager : MonoBehaviour
         {
             highScores = new List<int>(new int[21]);
         }
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -255,5 +259,14 @@ public class GameManager : MonoBehaviour
         }
 
         Camera.main.transform.localPosition = originalPos;
+    }
+
+    public void PlaySound(string soundName)
+    {
+        AudioClip clip = Resources.Load<AudioClip>(soundName);
+        if (clip != null)
+        {
+            audioSource.PlayOneShot(clip);
+        }
     }
 }

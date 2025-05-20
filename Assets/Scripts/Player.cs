@@ -225,6 +225,8 @@ public class Player : MonoBehaviour
         }
 
         GameManager.Instance.SetHighScores(highscores);
+
+        GameManager.Instance.PlaySound("Pic");
     }
 
     string GetObjectPositionStatus(Collider2D col)
