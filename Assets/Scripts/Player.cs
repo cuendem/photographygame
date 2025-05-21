@@ -7,17 +7,16 @@ public class Player : MonoBehaviour
 {
     public BoxCollider2D outerCollider;
     public BoxCollider2D innerCollider;
-
-    private float pictureRate = 0.7f;
-    private float nextPictureTime = 0f;
+    public float pictureRate = 0.7f;
+    public float nextPictureTime = 0f;
+    public float scaleSpeed = 6f;
 
     private Vector3 targetScale = Vector3.one;
-    private float scaleSpeed = 6f;
 
     private SpriteRenderer playerSprite;
     private SpriteRenderer flashRenderer;
 
-    private void Start()
+    void Start()
     {
         // Find the child called "Flash" and get its SpriteRenderer
         flashRenderer = transform.Find("Flash")?.GetComponent<SpriteRenderer>();
