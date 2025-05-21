@@ -48,7 +48,7 @@ public class Payout : MonoBehaviour
         if (amount < 0)
         {
             // Set the text color to red
-            payoutText.color = Color.red;
+            payoutText.color = ColorUtility.TryParseHtmlString("#ff004d", out var c) ? c : Color.white;
             Color color = payoutText.color;
             color.a = 1f;
             payoutText.color = color;
@@ -58,14 +58,14 @@ public class Payout : MonoBehaviour
         else if (amount >= 15)
         {
             // Set the text color to orange
-            payoutText.color = Color.orange;
+            payoutText.color = ColorUtility.TryParseHtmlString("#ffa300", out var c) ? c : Color.white;
             Color color = payoutText.color;
             color.a = 1f;
             payoutText.color = color;
         }
         else {
             // Set the text color to green
-            payoutText.color = Color.green;
+            payoutText.color = ColorUtility.TryParseHtmlString("#00e436", out var c) ? c : Color.white;
             Color color = payoutText.color;
             color.a = 1f;
             payoutText.color = color;

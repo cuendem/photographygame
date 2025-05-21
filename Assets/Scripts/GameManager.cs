@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    public float timeLimit = 180f; // Total game time in seconds
+    public float timeLimit = 121f; // Total game time in seconds
     public float remainingTime = 0f;
     public bool gameStarted = false;
     public bool gamePaused = false;
@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
 
             int minutes = Mathf.FloorToInt(remainingTime / 60);
             int seconds = Mathf.FloorToInt(remainingTime % 60);
-            timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            timerText.text = string.Format("{0}:{1:00}", minutes, seconds);
 
             remainingTime -= Time.deltaTime;
 
@@ -324,12 +324,17 @@ public class GameManager : MonoBehaviour
                 TextMeshProUGUI scoreText = GameObject.Find("Score" + i).GetComponent<TextMeshProUGUI>();
                 string newText = "";
 
-                int[] dollarIndices = { 9, 14 };
+                int[] dollarIndices = { 14 };
+                int[] plusDollarIndices = { 9 };
                 int[] minusDollarIndices = { 10, 20 };
 
                 if (System.Array.IndexOf(dollarIndices, i) >= 0)
                 {
                     newText = "$" + highScores[i].ToString();
+                }
+                else if (System.Array.IndexOf(plusDollarIndices, i) >= 0)
+                {
+                    newText = "+$" + highScores[i].ToString();
                 }
                 else if (System.Array.IndexOf(minusDollarIndices, i) >= 0)
                 {
