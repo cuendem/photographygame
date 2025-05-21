@@ -38,6 +38,12 @@ public class MainMenu : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene("Settings");
     }
 
+    public void OpenHowTo()
+    {
+        // Load the how-to-play scene
+        UnityEngine.SceneManagement.SceneManager.LoadScene("HowTo");
+    }
+
     public void MainMenuScene()
     {
         // Load the main menu scene

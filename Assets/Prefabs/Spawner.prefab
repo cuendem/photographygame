@@ -71,4 +71,4 @@ MonoBehaviour:
   - prefab: {fileID: 1653321825453010932, guid: cefb956e24bb217419c98deeabe2d6fd, type: 3}
     spawnChance: 8
   minTime: 0
-  maxTime: 1.2
+  maxTime: 1
