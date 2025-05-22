@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee4657e7df488e4da7f259559e0d425, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeLimit: 121
+  timeLimit: 91
   remainingTime: 0
   gameStarted: 0
   gamePaused: 0
@@ -54,6 +54,7 @@ MonoBehaviour:
   powerUpActive: 0
   powerUpDuration: 5
   elapsedPowerUpTime: 0
+  volume: 1
 --- !u!82 &3011022554717911626
 AudioSource:
   m_ObjectHideFlags: 0
