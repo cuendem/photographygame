@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public bool powerUpActive = false;
     public float powerUpDuration = 5f;
     public float elapsedPowerUpTime = 0f;
+    public float volume = 1f; // Default volume level
 
     private TextMeshProUGUI moneyText;
     private TextMeshProUGUI timerText;
@@ -27,6 +28,23 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        // Background music
+        AudioClip backgroundMusic = Resources.Load<AudioClip>("ChillGuy");
+        if (backgroundMusic != null)
+        {
+
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.clip = backgroundMusic;
+            audioSource.loop = true;
+            audioSource.Play();
+
+        }
+        else
+        {
+            Debug.LogError("Background music not found!");
+        }
+
+
         // Singleton pattern
         if (Instance == null)
         {

@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 19556790}
   - component: {fileID: 19556789}
   - component: {fileID: 19556788}
+  - component: {fileID: 19556791}
   m_Layer: 5
   m_Name: Quit
   m_TagString: Untagged
@@ -252,6 +253,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 19556786}
   m_CullTransparentMesh: 1
+--- !u!114 &19556791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19556786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48e63035a92662b4fb5b2588fbc594e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverCursor: {fileID: 2800000, guid: bb4be9bc5a34dbe4f8e62cb5c8266bb6, type: 3}
+  defaultCursor: {fileID: 2800000, guid: dc2f263a869bdcf4f826a938c01a94a5, type: 3}
+  hotspot: {x: 0, y: 0}
+  cursorMode: 0
 --- !u!1 &136340836
 GameObject:
   m_ObjectHideFlags: 0
