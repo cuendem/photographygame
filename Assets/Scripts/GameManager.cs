@@ -28,6 +28,15 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+
+        volume = PlayerPrefs.GetFloat("MasterVolume", 1f);
+
+        if (audioSource != null)
+        {
+            audioSource.volume = volume;
+            Debug.Log("Volume set to: " + volume);
+        }
+
         // Background music
         AudioClip backgroundMusic = Resources.Load<AudioClip>("ChillGuy");
         if (backgroundMusic != null)
@@ -61,7 +70,6 @@ public class GameManager : MonoBehaviour
             highScores = new List<int>(new int[21]);
         }
 
-        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -95,6 +103,16 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+    
+    public void SetVolume(float newVolume)
+    {
+        volume = newVolume;
+        if (audioSource != null)
+        {
+            audioSource.volume = newVolume;
+        }
+    }
+
 
     public void AddMoney(int amount)
     {
@@ -110,7 +128,8 @@ public class GameManager : MonoBehaviour
         moneyText.text = "$" + money.ToString();
 
         // Show payout text
-        if (amount != 0) {
+        if (amount != 0)
+        {
             Canvas canvas = GameObject.FindFirstObjectByType<Canvas>();
 
             // Instantiate the payout object and parent it to the canvas
@@ -230,11 +249,15 @@ public class GameManager : MonoBehaviour
 
                     highScores[11]++;
 
+                    GameManager.Instance.PlaySound("Flash");
+                    GameManager.Instance.PlaySound("Cuckoo");
+
                     break;
                 case "SpeedUp":
                     powerUpDuration = 2f;
                     highScores[12]++;
                     ShakeScreen(2f, 0.05f);
+                    GameManager.Instance.PlaySound("SpeedUp");
                     break;
                 case "Zoom":
                     powerUpDuration = 5f;

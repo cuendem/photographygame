@@ -1048,8 +1048,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -76, y: 52}
-  m_SizeDelta: {x: 416.6, y: 20}
+  m_AnchoredPosition: {x: -4.167554, y: 37.99995}
+  m_SizeDelta: {x: 544.2651, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &760689162
 MonoBehaviour:
@@ -1872,8 +1872,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -40, y: -42}
-  m_SizeDelta: {x: 486, y: 30}
+  m_AnchoredPosition: {x: -3.5170546, y: -56.00005}
+  m_SizeDelta: {x: 542.97, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1351283336
 MonoBehaviour:
@@ -2456,7 +2456,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000059959304, y: 87}
+  m_AnchoredPosition: {x: 8.000006, y: 72.999954}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1683096907
@@ -2592,7 +2592,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000059959304, y: -13}
+  m_AnchoredPosition: {x: 8.000006, y: -27.00005}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1702212462
@@ -2731,7 +2731,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -196, y: -118}
+  m_AnchoredPosition: {x: -188.00006, y: -132.00005}
   m_SizeDelta: {x: 171.9, y: 36.98}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1767926726
@@ -3002,7 +3002,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000059959304, y: 143.00003}
+  m_AnchoredPosition: {x: 8, y: 129}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1873028139
@@ -3090,7 +3090,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -247.38586, y: 0, z: -250.68427, w: 0}
+  m_margin: {x: -266.72906, y: 0, z: -250.68427, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3720,8 +3720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39d8c0e5bf2b722478d3bbe023c8f9ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioMixer: {fileID: 24100000, guid: 80053c43be22214409744f598724a1eb, type: 2}
-  masterSlider: {fileID: 760689162}
+  volumeSlider: {fileID: 760689162}
   aspectRatioDropdown: {fileID: 1351283336}
   fullscreenButton: {fileID: 1767926726}
   fullscreenButtonText: {fileID: 1376100887}

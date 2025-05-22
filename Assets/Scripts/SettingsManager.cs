@@ -6,9 +6,8 @@ using TMPro;
 
 public class SettingsManager : MonoBehaviour
 {
-    [Header("Audio")]
-    public AudioMixer audioMixer;
-    public Slider masterSlider;
+    [Header("Audio Settings")]
+    public Slider volumeSlider;
 
     [Header("Display")]
     public TMP_Dropdown aspectRatioDropdown;
@@ -26,9 +25,10 @@ public class SettingsManager : MonoBehaviour
     private void Start()
     {
         // AUDIO
-        masterSlider.onValueChanged.AddListener(val => SetVolume("Master", val));
-
-        LoadAudioSettings();
+        float savedVolume = PlayerPrefs.GetFloat("MasterVolume", 1f);
+        volumeSlider.value = savedVolume;
+        volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
+        UpdateVolume(savedVolume);
 
         // DISPLAY
         aspectRatioDropdown.ClearOptions();
@@ -39,20 +39,32 @@ public class SettingsManager : MonoBehaviour
         LoadDisplaySettings();
     }
 
+
     // Volume handling
-    void SetVolume(string param, float value)
+    public void OnVolumeChanged(float newValue)
     {
-        float volume = Mathf.Log10(Mathf.Clamp(value, 0.0001f, 1f)) * 20f;
-        audioMixer.SetFloat(param, volume);
-        PlayerPrefs.SetFloat(param, value);
+        UpdateVolume(newValue);
     }
 
-    void LoadAudioSettings()
+    private void UpdateVolume(float value)
     {
-        masterSlider.value = PlayerPrefs.GetFloat("Master", 1f);
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.volume = value;
+            GameManager.Instance.SetVolume(value);
 
-        SetVolume("Master", masterSlider.value);
+            // Update all other AudioSources if needed
+            AudioSource[] sources = FindObjectsByType<AudioSource>(FindObjectsSortMode.None);
+            foreach (AudioSource source in sources)
+            {
+                source.volume = value;
+            }
+        }
+
+        PlayerPrefs.SetFloat("MasterVolume", value);
+        Debug.Log("Volume set to: " + value);
     }
+
 
     // Display handling
     void OnAspectRatioChanged(int index)
